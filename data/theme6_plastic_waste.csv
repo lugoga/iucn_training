@@ -1,0 +1,11 @@
+station_id,location,lon,lat,macroplastics_count
+ST_1,Dar es Salaam Shore,39.28,-6.75,250
+ST_2,Dar es Salaam Shore,39.29,-6.77,310
+ST_3,Dar es Salaam Shore,39.27,-6.74,180
+ST_4,Zanzibar Coast,39.32,-6.82,420
+ST_5,Zanzibar Coast,39.31,-6.80,380
+ST_6,Zanzibar Coast,39.33,-6.83,490
+ST_7,Tanga Port,39.22,-6.67,120
+ST_8,Tanga Port,39.23,-6.69,150
+ST_9,Tanga Port,39.21,-6.66,95
+ST_10,Dar es Salaam Shore,39.30,-6.78,290

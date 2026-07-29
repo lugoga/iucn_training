@@ -1,0 +1,73 @@
+---
+title: "Track A: Spatial Data & GIS in R"
+subtitle: "IUCN Bahari Yetu Day 4 Elective"
+author: "IUCN Scholarly Program Lead"
+date: "July 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Spatial Data in R
+
+## Why use R for GIS?
+* Traditional GIS tools (ArcGIS/QGIS) are GUI-driven and hard to automate/reproduce.
+* R integrates spatial calculations directly into your statistical modeling and data cleaning pipelines.
+* Easily handle vector coordinates, satellite imagery, and DEM grids.
+
+## Key Spatial Packages
+* **`sf` (Simple Features)**:
+  * For vector data (Points, Lines, Polygons).
+  * Replaces legacy `sp` and `rgdal` packages.
+* **`terra`**:
+  * For raster data (Elevation models, climate grids, satellite bands).
+  * Replaces legacy `raster` package.
+
+---
+
+# Working with Vector Data (`sf`)
+
+## Reading & Creating Vectors
+* Read shapefiles, GeoJSON, or GPX files:
+  ```r
+  protected_areas <- read_sf(here("data", "marine_parks.shp"))
+  ```
+* Convert tabular data frame with coordinates:
+  ```r
+  stations_sf <- st_as_sf(my_df, coords = c("lon", "lat"), crs = 4326)
+  ```
+
+## Coordinate Reference Systems (CRS)
+* Projections are crucial!
+* **CRS 4326**: WGS 84 (Degrees: Latitude/Longitude).
+* **CRS 32737**: UTM Zone 37S (Meters: Standard projected system for Tanzania).
+* Reproject vector data:
+  ```r
+  stations_utm <- st_transform(stations_sf, crs = 32737)
+  ```
+
+---
+
+# Working with Raster Data (`terra`)
+
+## Loading and Plotting
+* Read rasters (GeoTIFFs):
+  ```r
+  dem <- rast(here("data", "dem_zanzibar.tif"))
+  plot(dem)
+  ```
+
+## Spatial Extraction
+* Extract raster values (e.g. elevation, precipitation, temperature) at specific coordinate points:
+  ```r
+  points_values <- terra::extract(dem, stations_sf)
+  ```
+
+---
+
+# Let's Code!
+* Open `module/day4/track_a_spatial.qmd` in your IDE.
+* Run the exercises and map your coordinate points!

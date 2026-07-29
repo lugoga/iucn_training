@@ -1,0 +1,111 @@
+---
+title: "Day 1 Hands-On Exercises: Foundations of R & Tidy Data"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+format: html
+---
+
+## Exercise 1: Directory Setup & the `here` Package
+
+Before running any R code, ensure your workspace is structured logically. You should have:
+- A root RStudio Project directory.
+- A `data/` subdirectory for raw datasets.
+- A `scripts/` or `module/` subdirectory for code.
+- An `outputs/` subdirectory for saved figures and tables.
+
+Let's test if the `here` package correctly points to your project root. Run the following code block:
+
+```{r}
+#| label: setup-check
+# Install if not already installed:
+# install.packages("here")
+
+library(here)
+print(here())
+```
+
+*Question:* What directory does `here()` output? Is it your project's root folder?
+
+---
+
+## Exercise 2: Basic R Operations & Data Structures
+
+### Part A: Vectors
+Create a vector representing forest canopy height (in meters) for 5 trees:
+`12.4, 15.1, 9.8, 22.3, 14.5`
+
+Create another vector representing the species codes for those 5 trees:
+`"T1", "T2", "T1", "T3", "T2"`
+
+```{r}
+# Write your code here:
+heights <- c(12.4, 15.1, 9.8, 22.3, 14.5)
+species <- c("T1", "T2", "T1", "T3", "T2")
+
+# Calculate the mean and standard deviation of tree heights:
+mean_height <- mean(heights)
+sd_height <- sd(heights)
+
+print(mean_height)
+print(sd_height)
+```
+
+### Part B: Data Frames
+Combine these two vectors into a data frame named `forest_data`. Add a third column for `tree_id` containing the values 1 through 5.
+
+```{r}
+# Combine into a data frame
+forest_data <- data.frame(
+  tree_id = 1:5,
+  species = species,
+  height = heights
+)
+
+print(forest_data)
+```
+
+---
+
+## Exercise 3: Importing Data
+
+For this exercise, we will import a mock dataset representing plastic waste counts at different beach sites.
+
+1. Ensure the package `readr` (part of the `tidyverse`) is loaded.
+2. Read a CSV file. If you don't have a file, we can write a temporary one to test.
+
+```{r}
+library(tidyverse)
+
+# Practice importing the pre-generated plastic waste dataset:
+plastics_df <- read_csv(here("module", "data", "theme6_plastic_waste.csv"))
+head(plastics_df)
+```
+
+---
+
+## Exercise 4: Identifying Untidy Data
+
+Look at the following three tables representing household energy biomass usage.
+Which one is **tidy** according to the rules:
+1. Each variable must have its own column.
+2. Each observation must have its own row.
+3. Each value must have its own cell.
+
+### Table A
+| Household | Charcoal_Kg_Day1 | Charcoal_Kg_Day2 | Firewood_Kg_Day1 | Firewood_Kg_Day2 |
+| :--- | :--- | :--- | :--- | :--- |
+| HH01 | 2.5 | 3.0 | 5.0 | 4.5 |
+| HH02 | 1.0 | 1.2 | 8.0 | 7.5 |
+
+### Table B
+| Household | Fuel_Type | Day | Amount_Kg |
+| :--- | :--- | :--- | :--- |
+| HH01 | Charcoal | Day 1 | 2.5 |
+| HH01 | Charcoal | Day 2 | 3.0 |
+| HH01 | Firewood | Day 1 | 5.0 |
+| HH01 | Firewood | Day 2 | 4.5 |
+| HH02 | Charcoal | Day 1 | 1.0 |
+| HH02 | Charcoal | Day 2 | 1.2 |
+| HH02 | Firewood | Day 1 | 8.0 |
+| HH02 | Firewood | Day 2 | 7.5 |
+
+*Discuss with your theme table:* Why is **Table B** tidy and **Table A** untidy? How does R benefit from the structure of Table B?

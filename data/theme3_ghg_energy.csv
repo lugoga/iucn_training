@@ -1,0 +1,11 @@
+household_id,district,occupants,charcoal_used_kg_week,firewood_used_kg_week
+HH_101,Urban,5,15.2,25.0
+HH_102,West,4,12.0,30.5
+HH_103,North,6,18.5,15.0
+HH_104,South,3,8.2,40.0
+HH_105,Urban,7,22.1,10.2
+HH_106,West,5,14.0,28.0
+HH_107,North,4,11.5,35.0
+HH_108,South,8,25.0,8.5
+HH_109,Urban,2,6.5,45.0
+HH_110,West,6,17.2,20.0

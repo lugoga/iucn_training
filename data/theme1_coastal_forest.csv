@@ -1,0 +1,21 @@
+plot_id,tree_species,dbh_cm,height_m
+Plot_1,Rhizophora mucronata,25.4,14.8
+Plot_1,Avicennia marina,12.1,7.2
+Plot_1,Sonneratia alba,30.5,18.1
+Plot_1,Rhizophora mucronata,28.2,16.5
+Plot_2,Sonneratia alba,15.4,9.2
+Plot_2,Avicennia marina,22.1,12.8
+Plot_2,Rhizophora mucronata,18.7,11.0
+Plot_2,Sonneratia alba,40.1,23.5
+Plot_3,Avicennia marina,34.2,19.9
+Plot_3,Sonneratia alba,11.5,6.8
+Plot_3,Rhizophora mucronata,20.8,12.1
+Plot_3,Avicennia marina,27.6,16.2
+Plot_4,Sonneratia alba,45.2,26.4
+Plot_4,Rhizophora mucronata,38.1,22.3
+Plot_4,Avicennia marina,16.5,9.6
+Plot_4,Sonneratia alba,29.3,17.1
+Plot_5,Rhizophora mucronata,33.1,19.2
+Plot_5,Avicennia marina,24.5,14.4
+Plot_5,Sonneratia alba,19.8,11.5
+Plot_5,Rhizophora mucronata,42.6,24.8

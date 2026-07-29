@@ -1,0 +1,103 @@
+---
+title: "Day 1: Foundations of R & Tidy Data"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+author: "IUCN Scholarly Program Lead"
+date: "July 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to the Bootcamp
+
+## Welcome Scholars!
+* **Who are we?** 28 MSc and PhD candidates across SUA, UDSM, NM-AIST, and SUZA.
+* **The Goal**: Build reproducible data pipelines for your master's and doctoral theses.
+* **Our Motto**: *"Bring Your Own Data (BYOD)"* — by Friday, your own datasets will be inside R pipelines.
+
+## Why R instead of Excel?
+* **Reproducibility**: If you update your data, your analysis and figures update in 1-click.
+* **Efficiency**: Spend less time on manual copy-pasting and formatting.
+* **Scope**: Advanced statistics, spatial GIS, and automated reports all live in the same ecosystem.
+
+---
+
+# Setting Up the Workspace
+
+## Project-Centric Workflow
+* Avoid using `setwd("C:/Users/name/Desktop/folder")` — this breaks when sharing code!
+* Use **RStudio Projects** (`.Rproj`) to define your working directory.
+* Use the `here` package for robust relative paths:
+  ```r
+  library(here)
+  data <- read.csv(here("data", "my_dataset.csv"))
+  ```
+
+## Recommended Folder Structure
+```
+my_thesis_project/
+├── data/           # Raw and cleaned data (read-only)
+├── scripts/        # R scripts or Quarto files
+├── outputs/        # Saved figures, tables, and reports
+└── my_project.Rproj
+```
+
+---
+
+# Introduction to Tidy Data
+
+## What is Tidy Data?
+Hadley Wickham's definition:
+
+> "Tidy datasets are all alike, but every messy dataset is messy in its own way."
+
+1. **Variables** in columns.
+2. **Observations** in rows.
+3. **Values** in individual cells.
+
+## Visualizing Untidy vs. Tidy Data
+
+### Untidy (Wide)
+| Site | Year_2024 | Year_2025 |
+| :--- | :---: | :---: |
+| Site A | 15.2 | 18.1 |
+| Site B | 10.4 | 12.3 |
+
+### Tidy (Long)
+| Site | Year | Value |
+| :--- | :---: | :---: |
+| Site A | 2024 | 15.2 |
+| Site A | 2025 | 18.1 |
+| Site B | 2024 | 10.4 |
+| Site B | 2025 | 12.3 |
+
+---
+
+# Importing Tabular Data
+
+## Essential Packages
+Load the core tidyverse packages:
+```r
+library(tidyverse)
+library(readxl)
+```
+
+## Reading Files
+* **CSV Files**:
+  ```r
+  my_data <- read_csv(here("data", "survey_results.csv"))
+  ```
+* **Excel Sheets**:
+  ```r
+  my_data <- read_excel(here("data", "field_records.xlsx"), sheet = "Site1")
+  ```
+
+---
+
+# Let's Code!
+* Open your IDE.
+* Run the exercises in `module/day1/exercises.qmd`.
+* Get your own data imported!

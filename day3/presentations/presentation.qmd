@@ -1,0 +1,97 @@
+---
+title: "Day 3: Publication-Ready Graphics"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+author: "IUCN Scholarly Program Lead"
+date: "July 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Grammar of Graphics
+
+## What is `ggplot2`?
+* A visualization package based on *The Grammar of Graphics* by Leland Wilkinson.
+* Build plots layer-by-layer:
+  1. **Data**: The source dataset.
+  2. **Aesthetic Mapping (`aes`)**: Links variables to visual attributes (x, y, color, size, shape).
+  3. **Geometric Objects (`geoms`)**: Visual representation of data (points, lines, bars, boxes).
+
+## Basic Layering Syntax
+```r
+ggplot(data = my_data, mapping = aes(x = dbh, y = height)) +
+  geom_point() +
+  geom_smooth()
+```
+
+---
+
+# Selecting the Right Geom
+
+## Common Geoms
+* **Scatter Plot**: `geom_point()` (for two continuous variables)
+* **Trendline**: `geom_smooth()` (add linear or local regressions)
+* **Boxplot**: `geom_boxplot()` (comparing distributions across categories)
+* **Line Plot**: `geom_line()` (time-series or longitudinal trajectories)
+* **Bar Chart**: `geom_col()` or `geom_bar()` (counts or categorical summary comparisons)
+
+---
+
+# Customizing Aesthetics
+
+## Color Scales
+* **Discrete (Categorical)**:
+  `scale_color_brewer(palette = "Set1")` or `scale_fill_viridis_d()`
+* **Continuous (Numeric Gradient)**:
+  `scale_color_viridis_c()` or `scale_fill_gradient(low = "blue", high = "red")`
+
+## Theme Customization
+* Quick preset themes: `theme_bw()`, `theme_minimal()`, `theme_classic()`.
+* Deep customization inside `theme()`:
+  ```r
+  my_plot +
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+  ```
+
+---
+
+# Faceting (Multi-Panel Layouts)
+
+## Split by Categories
+* **`facet_wrap(~variable)`**: Panels wrapped in columns/rows.
+* **`facet_grid(row_var ~ col_var)`**: Layout structured as a table grid.
+```r
+ggplot(marine_data, aes(x = temperature, y = oxygen)) +
+  geom_point() +
+  facet_wrap(~depth_zone)
+```
+
+---
+
+# Exporting for Publications
+
+## Resolution and Dimensions
+* Never use screenshot tools to export images!
+* Use **`ggsave()`** with explicit physical dimensions and resolutions:
+```r
+ggsave(
+  filename = here("outputs", "figure_1.tiff"),
+  plot = last_plot(),
+  width = 180, 
+  height = 120, 
+  units = "mm", 
+  dpi = 300
+)
+```
+
+---
+
+# Hands-On Lab!
+* Complete exercises in `module/day3/exercises.qmd`.
+* Save a high-resolution version of a thesis figure.

@@ -1,0 +1,105 @@
+---
+title: "Reproducible Scholarly Report Template"
+subtitle: "Applied Analysis of [Insert Research Theme / Topic]"
+author: "Scholar Name (Affiliation: SUA / UDSM / NM-AIST / SUZA)"
+date: today
+format:
+  html:
+    toc: true
+    number-sections: true
+    theme: cosmo
+  docx:
+    toc: true
+    number-sections: true
+  pdf:
+    toc: true
+    number-sections: true
+---
+
+# Introduction
+
+*Instructions: Write a brief background of your research topic. This template demonstrates how to compile text, code, tables, and figures into a single document.*
+
+The **IUCN Bahari Yetu Project** supports capacity building in environmental and climate sciences. This report outlines a reproducible analysis pipeline for assessing research parameters.
+
+## Research Questions
+1. Is there a statistically significant difference in our response variable across study locations?
+2. How does the predictor variable influence our primary metric?
+
+---
+
+# Methodology & Data Import
+
+We read our raw data into R. The chunk below is configured with `#| echo: true` to display the code, but we set `#| warning: false` and `#| message: false` to keep the compiled report clean.
+
+```{r}
+#| label: setup-and-load
+#| echo: true
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(flextable)
+library(here)
+
+# Load the pre-generated AFOLU dataset
+study_data <- read_csv(here("module", "data", "theme5_ghg_afolu.csv"))
+
+head(study_data)
+```
+
+---
+
+# Results
+
+## Descriptive Summary
+
+We compute summaries of our measurements grouped by study site. Table @tbl-summary shows the calculated mean and standard deviations.
+
+```{r}
+#| label: tbl-summary
+#| tbl-cap: "Summary statistics of soil organic carbon and crop yield by crop type."
+#| echo: false
+
+summary_table <- study_data %>%
+  group_by(crop_type) %>%
+  summarize(
+    `Mean SOC (%)` = round(mean(soil_organic_carbon_pct), 2),
+    `SD SOC` = round(sd(soil_organic_carbon_pct), 2),
+    `Mean Yield (t/ha)` = round(mean(yield_tonnes_ha), 2),
+    `SD Yield` = round(sd(yield_tonnes_ha), 2)
+  )
+
+# Format using flextable
+flextable(summary_table) %>%
+  theme_vanilla() %>%
+  autofit()
+```
+
+## Visual Analysis
+
+In Figure @fig-biomass, we plot the distribution of biomass across the two sites.
+
+```{r}
+#| label: fig-biomass
+#| fig-cap: "Comparison of crop yield levels between Maize and Rice farms."
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+
+ggplot(study_data, aes(x = crop_type, y = yield_tonnes_ha, fill = crop_type)) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_manual(values = c("#0A3B5C", "#4A7C59")) +
+  theme_classic() +
+  labs(
+    x = "Crop Type",
+    y = "Yield (tonnes/ha)",
+    fill = "Crop Type"
+  )
+```
+
+---
+
+# Discussion & Conclusion
+
+*Instructions: Interpret the results shown in Table 1 and Figure 1. Since this pipeline is fully automated in Quarto, any changes to the raw data files will automatically update all numbers, tables, and figures upon re-rendering.*

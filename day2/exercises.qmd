@@ -1,0 +1,133 @@
+---
+title: "Day 2 Hands-On Exercises: Data Wrangling with the Tidyverse"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+format: html
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+```
+
+## Exercise 1: Single-Table Operations
+
+Let's generate a simulated dataset representing tree attributes in a coastal forest carbon inventory:
+
+```{r}
+# Load the pre-generated coastal forest dataset
+coastal_forest <- read_csv(here("module", "data", "theme1_coastal_forest.csv"))
+
+head(coastal_forest)
+```
+
+### Tasks
+1. **Filter**: Keep only trees belonging to species `"Rhizophora mucronata"` with a DBH greater than 20 cm.
+2. **Select**: Keep only the columns `plot_id`, `tree_species`, and `dbh_cm`.
+3. **Mutate**: Create a new column `basal_area_m2` calculated as:
+   $$\text{Basal Area} = \pi \times \left(\frac{\text{DBH}}{200}\right)^2$$
+   *Note: Use `pi` in R for $\pi$.*
+
+```{r}
+# Write your wrangling pipeline here:
+cleaned_forest <- coastal_forest %>% 
+  filter(tree_species == "Rhizophora mucronata", dbh_cm > 20) %>% 
+  select(plot_id, tree_species, dbh_cm) %>% 
+  mutate(basal_area_m2 = pi * (dbh_cm / 200)^2)
+
+print(cleaned_forest)
+```
+
+---
+
+## Exercise 2: Group Summaries
+
+Using the original `coastal_forest` dataset, calculate the following summary metrics **for each plot**:
+- The total number of trees (`n()`).
+- The average DBH.
+- The maximum height of trees in the plot.
+
+```{r}
+# Write your grouping and summarization pipeline here:
+plot_summary <- coastal_forest %>% 
+  group_by(plot_id) %>% 
+  summarize(
+    total_trees = n(),
+    mean_dbh = mean(dbh_cm, na.rm = TRUE),
+    max_height = max(height_m, na.rm = TRUE)
+  )
+
+print(plot_summary)
+```
+
+---
+
+## Exercise 3: Joins & Relational Data
+
+In environmental inventories, we often have an activity table and a lookup table containing metadata (like carbon density factors or coordinates).
+
+Let's join two tables: `emissions_activity` and `emission_factors`.
+
+```{r}
+# Load the activity data and create a lookup table for emission factors
+emissions_activity <- read_csv(here("module", "data", "theme2_ghg_ippu.csv"))
+
+emission_factors <- tibble(
+  facility_id = c("FAC_1", "FAC_2", "FAC_3", "FAC_4"),
+  ef_co2_per_tonne = c(0.52, 0.49, 0.54, 0.51),
+  location = c("Dar es Salaam", "Tanga", "Mtwara", "Mwanza")
+)
+```
+
+### Tasks
+1. Join the tables together using `left_join()`.
+2. Calculate a new column `total_co2_emissions_tonnes` as `cement_produced_tonnes * ef_co2_per_tonne`.
+
+```{r}
+# Write your join and calculation code here:
+emissions_joined <- emissions_activity %>% 
+  left_join(emission_factors, by = "facility_id") %>% 
+  mutate(total_co2_emissions_tonnes = cement_produced_tonnes * ef_co2_per_tonne)
+
+print(emissions_joined)
+```
+
+---
+
+## Exercise 4: Pivoting Data
+
+Sometimes, datasets come in a "wide" format where dates or parameters are columns. We need to convert them to "long" format for tidy visualization.
+
+Let's pivot this wide laboratory dataset representing anaerobic digestion of solid waste:
+
+```{r}
+#| label: generate-wide-data
+waste_digestion_wide <- tibble(
+  reactor_id = c("R_A", "R_B", "R_C"),
+  feedstock = c("Food Waste", "Manure", "Co-digested"),
+  day_1 = c(10.2, 5.4, 18.5),
+  day_2 = c(15.4, 7.8, 25.1),
+  day_3 = c(22.1, 9.2, 33.6)
+)
+
+print(waste_digestion_wide)
+```
+
+### Tasks
+1. Use `pivot_longer()` to turn the day columns (`day_1`, `day_2`, `day_3`) into two columns: `day` (containing the character values "day_1", "day_2", "day_3") and `methane_yield` (containing the numeric values).
+2. Clean the `day` column to contain numeric values `1, 2, 3` using `mutate()` and `readr::parse_number()`.
+
+```{r}
+# Write your pivoting code here:
+waste_digestion_long <- waste_digestion_wide %>% 
+  pivot_longer(
+    cols = starts_with("day_"),
+    names_to = "day",
+    values_to = "methane_yield"
+  ) %>% 
+  mutate(day = parse_number(day))
+
+print(waste_digestion_long)
+```

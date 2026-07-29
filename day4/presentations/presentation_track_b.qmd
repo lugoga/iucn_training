@@ -1,0 +1,77 @@
+---
+title: "Track B: Statistical Modeling in R"
+subtitle: "IUCN Bahari Yetu Day 4 Elective"
+author: "IUCN Scholarly Program Lead"
+date: "July 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Scientific Hypothesis Testing
+
+## Workflow of Statistical Testing
+1. **Design**: Formulate null ($H_0$) and alternative ($H_a$) hypotheses.
+2. **Assumptions**: Verify normality (Shapiro-Wilk, QQ-plots) and variance homogeneity (Levene's/Bartlett's test).
+3. **Execution**: Run the parametric or non-parametric test.
+4. **Effect Size**: Calculate the magnitude of difference (Cohen's d, Eta-squared).
+5. **Scholarly Report**: Generate formatted output text and plots.
+
+## The `testflow` Package
+* Aligns tests around your study design:
+  * Two independent groups $\rightarrow$ `test_t_two_sample()`
+  * Three or more groups $\rightarrow$ `test_anova_one_way()`
+  * Paired measurements $\rightarrow$ `test_t_paired()`
+
+## The `rstatix` Package
+* A pipe-friendly alternative matching tidyverse design:
+  ```r
+  # Normality test
+  df |> shapiro_test(response_var)
+
+  # t-test
+  df |> t_test(response ~ group_var)
+
+  # Effect size
+  df |> cohens_d(response ~ group_var)
+  ```
+
+---
+
+# Single and Multiple Regression
+
+## Regression Models (`lm()`)
+* Fit linear models to explore relationships between predictors and a numeric response:
+  ```r
+  # Fit model
+  model_fit <- lm(carbon_stocks ~ dbh + height, data = forest_data)
+  
+  # Print summary coefficient tables
+  summary(model_fit)
+  ```
+
+## Model Assumptions & Diagnostics
+* Check residuals vs. fitted values (homoscedasticity) and Normal Q-Q plots (normality of errors):
+  ```r
+  plot(model_fit, which = 1:2)
+  ```
+
+---
+
+# Exporting Statistical Tables
+
+## Formatted Tables
+* Use `flextable` to output APA or journal-style tables into Word or PDF reports.
+  ```r
+  library(flextable)
+  as_flex_table(model_fit)
+  ```
+
+---
+
+# Let's Code!
+* Open `module/day4/track_b_modeling.qmd` in your IDE.
+* Run the tests and fit models on your simulated environmental data!

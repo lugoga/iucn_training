@@ -1,0 +1,11 @@
+farm_id,district,crop_type,yield_tonnes_ha,fertilizer_nitrogen_kg_ha,soil_organic_carbon_pct
+FARM_1,Mvomero,Maize,3.5,45.0,2.85
+FARM_2,Kilosa,Maize,2.8,30.0,2.10
+FARM_3,Morogoro Rural,Rice,4.2,80.0,3.45
+FARM_4,Mvomero,Rice,5.1,110.0,3.90
+FARM_5,Kilosa,Maize,1.9,15.0,1.80
+FARM_6,Morogoro Rural,Maize,3.1,50.0,2.60
+FARM_7,Mvomero,Rice,4.8,95.0,3.20
+FARM_8,Kilosa,Rice,3.6,70.0,2.95
+FARM_9,Morogoro Rural,Maize,2.5,40.0,2.30
+FARM_10,Mvomero,Maize,4.0,60.0,3.10

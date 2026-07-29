@@ -1,0 +1,84 @@
+---
+title: "Day 5: Reproducible Research & Project Delivery"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+author: "IUCN Scholarly Program Lead"
+date: "July 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Reproducible Research
+
+## The Replication Crisis
+* In scientific publishing, many results cannot be reproduced because:
+  * Raw data is lost or altered manually in Excel.
+  * The exact steps of data cleaning and modeling are not recorded.
+  * Figures are copied and pasted manually.
+
+## What is Quarto?
+* An open-source scientific and technical publishing system.
+* Combines:
+  1. **Narrative Text**: Written using Markdown.
+  2. **Code**: Executed block-by-block.
+  3. **Output**: Automatically embeds generated figures, tables, and statistics.
+* Replaces and improves upon R Markdown.
+
+---
+
+# Quarto Document Structure
+
+## Anatomy of a `.qmd` file
+1. **YAML Header**: Configuration metadata at the very top (defined between `---`).
+2. **Markdown Text**: Headings, lists, bold text, links, and formulas.
+3. **Code Chunks**: Blocks of R code wrapped in ` ```{r} ` and ` ``` `.
+
+## YAML Header Configuration
+```yaml
+---
+title: "Marine Species Survey"
+author: "Scholar Name"
+format:
+  html:
+    toc: true
+  docx:
+    toc: true
+  pdf:
+    toc: true
+---
+```
+
+---
+
+# Code Chunk Customizations
+
+## Execution Options
+Configure chunk behavior using `#|` comments inside the code block:
+* **`#| echo: false`**: Hide code blocks in the rendered document (only show output).
+* **`#| warning: false`**: Hide R warning messages.
+* **`#| message: false`**: Hide package loading logs.
+* **`#| fig-cap: "caption"`**: Add figure captions.
+* **`#| tbl-cap: "caption"`**: Add table captions.
+
+---
+
+# Collaborative Deliverables
+
+## Today's Deliverable
+* Bring together:
+  * Your folder structure.
+  * Your raw data imports.
+  * Your wrangling and summary statistics.
+  * Your publication-quality figures.
+* Render everything into a Word doc or PDF chapter.
+* **Group Presentations**: 10 minutes per Theme Table.
+
+---
+
+# Let's Assemble!
+* Open `module/day5/template_report.qmd` in your IDE.
+* Populate it with your analysis code.
+* Render and review the outputs!

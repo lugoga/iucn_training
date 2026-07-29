@@ -1,0 +1,125 @@
+---
+title: "Day 3 Hands-On Exercises: Data Visualization with `ggplot2`"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+format: html
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+```
+
+## Exercise 1: Building a Basic Scatter Plot
+
+Let's generate simulated marine biology survey data representing dolphin acoustic detections vs. boat traffic density:
+
+```{r}
+# Load the pre-generated marine ecology dataset
+marine_survey <- read_csv(here("module", "data", "theme4_marine_ecology.csv"))
+
+head(marine_survey)
+```
+
+### Tasks
+1. Plot `boat_density_index` on the x-axis and `dolphin_detections` on the y-axis using `geom_point()`.
+2. Map `survey_site` to the point color aesthetic.
+3. Add a linear trendline using `geom_smooth(method = "lm", se = FALSE)`.
+
+```{r}
+# Write your plotting pipeline here:
+ggplot(marine_survey, aes(x = boat_density_index, y = dolphin_detections, color = site)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Dolphin Acoustic Detections vs. Boat Traffic",
+    x = "Boat Density Index",
+    y = "Dolphin Detections / Day",
+    color = "Survey Site"
+  )
+```
+
+---
+
+## Exercise 2: Boxplots & Theme Customization
+
+Let's compare the distribution of tree heights across different species using boxplots.
+
+1. Build a boxplot of `tree_species` vs. `dbh_cm` using the `coastal_forest` sample dataset below.
+2. Fill the boxplots using the `"viridis"` color palette.
+3. Apply `theme_minimal()` and remove the legend (since species is already on the x-axis).
+
+```{r}
+# Load the pre-generated coastal forest dataset
+coastal_forest <- read_csv(here("module", "data", "theme1_coastal_forest.csv"))
+
+# Plotting code:
+ggplot(coastal_forest, aes(x = tree_species, y = dbh_cm, fill = tree_species)) +
+  geom_boxplot() +
+  scale_fill_viridis_d(option = "plasma") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(
+    title = "Tree DBH Distribution by Species",
+    x = "Mangrove Species",
+    y = "Diameter at Breast Height (cm)"
+  )
+```
+
+---
+
+## Exercise 3: Faceting
+
+Faceting splits one plot into multiple panels based on a categorical variable.
+Create a faceted plot showing dolphin detections vs. boat density, with a separate panel for each `survey_site`.
+
+```{r}
+# Plotting code:
+ggplot(marine_survey, aes(x = boat_density_index, y = dolphin_detections)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~site) +
+  theme_bw() +
+  labs(
+    title = "Site-wise Dolphin Detections vs. Boat Density",
+    x = "Boat Density Index",
+    y = "Dolphin Detections / Day"
+  )
+```
+
+---
+
+## Exercise 4: Exporting Plots with `ggsave()`
+
+Journals require high-resolution (300+ DPI) figures, often with specific width limits (e.g., 90 mm for single-column, 180 mm for double-column layouts).
+
+1. Store your plot in an object named `my_plot`.
+2. Save it as a PDF or high-resolution PNG using `ggsave()`.
+
+```{r}
+my_plot <- ggplot(marine_survey, aes(x = boat_density_index, y = dolphin_detections, color = site)) +
+  geom_point(size = 2.5) +
+  theme_classic() +
+  labs(
+    x = "Boat Density Index",
+    y = "Dolphin Detections / Day",
+    color = "Site"
+  )
+
+# Create outputs folder if it doesn't exist
+if (!dir.exists(here("outputs"))) {
+  dir.create(here("outputs"))
+}
+
+# Export figure:
+ggsave(
+  filename = here("outputs", "dolphin_detections_plot.png"),
+  plot = my_plot,
+  width = 150, 
+  height = 100, 
+  units = "mm", 
+  dpi = 300
+)
+```

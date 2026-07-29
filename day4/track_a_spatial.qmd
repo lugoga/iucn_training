@@ -1,0 +1,89 @@
+---
+title: "Day 4 Elective Track A: Spatial Data & GIS in R"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+format: html
+---
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(sf)
+library(terra)
+library(here)
+```
+
+## Exercise 1: Vector Geometries with `sf`
+
+Let's simulate coordinates for plastic waste cleanup stations along the Dar es Salaam coast.
+
+```{r}
+# Load the pre-generated plastic waste station coordinates dataset
+cleanup_sites <- read_csv(here("module", "data", "theme6_plastic_waste.csv"))
+
+# Convert tabular data to an sf spatial object (using CRS 4326 - WGS 84 GPS coordinates)
+cleanup_sites_sf <- st_as_sf(cleanup_sites, coords = c("lon", "lat"), crs = 4326)
+
+print(cleanup_sites_sf)
+```
+
+### Tasks
+1. Plot the spatial points using `geom_sf()` inside `ggplot()`.
+2. Reproject the spatial coordinates from WGS 84 (CRS 4326) to UTM Zone 37S (CRS 32737), which is standard for Tanzania.
+
+```{r}
+# Reproject:
+cleanup_sites_utm <- st_transform(cleanup_sites_sf, crs = 32737)
+
+# Plot:
+ggplot() +
+  geom_sf(data = cleanup_sites_utm, aes(size = macroplastics_count, color = macroplastics_count)) +
+  scale_color_viridis_c() +
+  theme_minimal() +
+  labs(
+    title = "Plastic Waste Cleanup Locations (UTM 37S)",
+    size = "Count",
+    color = "Count"
+  )
+```
+
+---
+
+## Exercise 2: Raster Manipulations with `terra`
+
+Let's create a simulated raster representing elevation (DEM) for a 10x10 km area near a coastal forest reserve.
+
+```{r}
+#| label: generate-raster
+# Create a blank raster grid
+dem_raster <- rast(
+  nrows = 100, ncols = 100, 
+  xmin = 39.2, xmax = 39.3, 
+  ymin = -6.8, ymax = -6.7,
+  crs = "EPSG:4326"
+)
+
+# Fill with simulated elevation values (gradient + noise)
+values(dem_raster) <- rep(seq(0, 300, length.out = 100), each = 100) + rnorm(10000, 0, 5)
+
+print(dem_raster)
+```
+
+### Tasks
+1. Plot the raster elevation map using `plot()`.
+2. Extract the elevation values at the plastic cleanup sites coordinates.
+
+```{r}
+# Plot raster:
+plot(dem_raster, main = "Coastal Digital Elevation Model (DEM)")
+
+# Extract values at points:
+extracted_elevation <- terra::extract(dem_raster, cleanup_sites_sf)
+
+# Combine results back:
+cleanup_sites_with_elevation <- cleanup_sites %>%
+  mutate(elevation_m = extracted_elevation[, 2])
+
+print(cleanup_sites_with_elevation)
+```

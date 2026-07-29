@@ -1,0 +1,128 @@
+---
+title: "Day 2: Data Wrangling, Joining, & Reshaping"
+subtitle: "IUCN Bahari Yetu Scholarly Cohort Bootcamp"
+author: "IUCN Scholarly Program Lead"
+date: "July 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Data Wrangling
+
+## Why Wrangle?
+* Real-world scientific data is messy: missing fields, text formatting issues, wide layouts, multiple sheets.
+* Tidyverse provides a collection of packages designed for data science.
+* The core package for wrangling is `dplyr`, and for reshaping is `tidyr`.
+
+## The Pipe Operator (`|>` or `%>%`)
+* Pipes allow you to pass the output of one function directly to the input of the next.
+* Native pipe: `|>` (available in modern R).
+* Tidyverse pipe: `%>%`.
+* Makes code readable:
+  ```r
+  # Without pipes:
+  summarize(group_by(filter(df, age > 10), class), mean(score))
+
+  # With pipes:
+  df |>
+    filter(age > 10) |>
+    group_by(class) |>
+    summarize(mean(score))
+  ```
+
+---
+
+# Core dplyr Verbs
+
+## filter()
+* Selects observations (rows) based on conditions.
+```r
+# Keep records where species is Rhizophora and dbh > 15
+mangroves |> 
+  filter(species == "Rhizophora mucronata", dbh_cm > 15)
+```
+
+## select()
+* Selects variables (columns) based on names.
+```r
+# Keep only coordinates and counts
+plastic_surveys |> 
+  select(lat, lon, count)
+```
+
+## mutate()
+* Creates new columns or transforms existing ones.
+```r
+# Convert DBH in cm to meters
+coastal_forest |> 
+  mutate(dbh_m = dbh_cm / 100)
+```
+
+---
+
+# Aggregation & Summaries
+
+## group_by() & summarize()
+* Summarize data by splitting it into categories, calculating statistics, and joining the results back.
+```r
+# Average tree height per plot
+coastal_forest |> 
+  group_by(plot_id) |> 
+  summarize(
+    avg_height = mean(height_m, na.rm = TRUE),
+    n_trees = n()
+  )
+```
+
+---
+
+# Combining Datasets
+
+## Relational Joins
+* Combine columns from two datasets based on a common key.
+* **`left_join(x, y)`**: Keep all rows from `x`, add matching columns from `y`.
+```r
+emissions <- activity_data |> 
+  left_join(emission_factors, by = "facility_id")
+```
+
+## Appending Rows
+* **`bind_rows(x, y)`**: Stack rows of `y` below `x` (must have matching columns).
+```r
+all_seasons <- bind_rows(dry_season_df, wet_season_df)
+```
+
+---
+
+# Reshaping Data
+
+## pivot_longer()
+* Convert columns to rows (wide to long).
+```r
+waste_long <- waste_wide |> 
+  pivot_longer(
+    cols = starts_with("day_"),
+    names_to = "day",
+    values_to = "methane"
+  )
+```
+
+## pivot_wider()
+* Convert rows to columns (long to wide).
+```r
+waste_wide <- waste_long |> 
+  pivot_wider(
+    names_from = day,
+    values_from = methane
+  )
+```
+
+---
+
+# Hands-On Lab!
+* Complete exercises in `module/day2/exercises.qmd`.
+* Apply wrangling pipelines to clean your own thesis tables.
