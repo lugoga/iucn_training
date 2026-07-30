@@ -1,0 +1,63 @@
+---
+title: "Day 3 Session 3 Exercise: Faceting & Plot Exporting"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+marine_survey <- read_csv(here("data", "theme4_marine_ecology.csv"))
+```
+
+# Part A: Faceting Panels
+
+Create a faceted scatterplot showing dolphin detections vs. boat density, with a separate panel for each `site`.
+
+```{r}
+ggplot(marine_survey, aes(x = boat_density_index, y = dolphin_detections)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~site) +
+  theme_bw() +
+  labs(
+    title = "Site-wise Dolphin Detections vs. Boat Density",
+    x = "Boat Density Index",
+    y = "Dolphin Detections / Day"
+  )
+```
+
+# Part B: Exporting Plots with `ggsave()`
+
+Save your styled plot as a high-resolution PNG file at 300 DPI, conforming to standard publication column dimensions.
+
+```{r}
+# 1. Build and store the plot object
+my_plot <- ggplot(marine_survey, aes(x = boat_density_index, y = dolphin_detections, color = site)) +
+  geom_point(size = 2.5) +
+  theme_classic() +
+  labs(
+    x = "Boat Density Index",
+    y = "Dolphin Detections / Day",
+    color = "Site"
+  )
+
+# 2. Make sure outputs folder is ready
+if (!dir.exists(here("outputs"))) {
+  dir.create(here("outputs"))
+}
+
+# 3. Export to PNG
+ggsave(
+  filename = here("outputs", "dolphin_detections_plot.png"),
+  plot = my_plot,
+  width = 150, 
+  height = 100, 
+  units = "mm", 
+  dpi = 300
+)
+```

@@ -1,0 +1,70 @@
+---
+title: "Day 2 Session 2: Group Summaries & Aggregation"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Splitting and Summarizing Data
+
+## The Group-Summarize Workflow
+* Often we want stats by categories (e.g. mean coral cover by Reef, total plastics count by District).
+* Split-Apply-Combine pattern:
+  * `group_by()`: Split the dataset into groups based on factors.
+  * `summarize()`: Apply aggregation functions to each group and compile the final summary table.
+
+---
+
+# Grouping with `group_by()`
+
+## Defining Group Boundaries
+* `group_by()` does not change the physical data frame appearance; it updates metadata indicating how rows are grouped:
+  ```r
+  # Grouping by location
+  grouped_debris <- macroplastics |>
+    group_by(location)
+  ```
+* Subsequent functions (like `summarize` or `mutate`) will be computed for each group independently.
+
+---
+
+# Aggregating with `summarize()`
+
+## Computing Group Statistics
+* `summarize()` reduces multiple values down to a single row summary:
+  ```r
+  # Calculate mean and total count by location
+  location_summary <- macroplastics |>
+    group_by(location) |>
+    summarize(
+      mean_count = mean(macroplastics_count, na.rm = TRUE),
+      total_count = sum(macroplastics_count, na.rm = TRUE),
+      sample_size = n()
+    )
+  ```
+* Built-in functions: `mean()`, `median()`, `sd()`, `min()`, `max()`, `n()` (counts records).
+
+---
+
+# Row Counts & Counts Shortcut
+
+## Counting Records
+* `n()` is a helper function that counts how many rows exist in each group.
+* `count()` is a handy shortcut combining `group_by()` and `summarize(n = n())`:
+  ```r
+  # Shortcut to count observations per location
+  location_counts <- macroplastics |>
+    count(location, sort = TRUE)
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day2/exercises/exercise2.qmd`.

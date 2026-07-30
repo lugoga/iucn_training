@@ -43,7 +43,7 @@ library(flextable)
 library(here)
 
 # Load the pre-generated AFOLU dataset
-study_data <- read_csv(here("module", "data", "theme5_ghg_afolu.csv"))
+study_data <- read_csv(here("data", "theme5_ghg_afolu.csv"))
 
 head(study_data)
 ```

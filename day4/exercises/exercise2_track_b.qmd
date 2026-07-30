@@ -1,0 +1,37 @@
+---
+title: "Day 4 Track B Exercise 2: Multiple Linear Regression"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+seedlings_data <- read_csv(here("data", "theme5_ghg_afolu.csv"))
+head(seedlings_data)
+```
+
+# Tasks
+
+1. Fit a multiple linear regression model predicting crop `yield_tonnes_ha` based on `fertilizer_nitrogen_kg_ha` and `soil_organic_carbon_pct`.
+2. Inspect the model coefficients and R-squared parameters using `summary()`.
+3. Draw diagnostic residual plots (`Residuals vs Fitted` and `Normal Q-Q`) to evaluate regression assumptions.
+
+Write your regression modeling code below:
+
+```{r}
+# 1. Fit model
+model_fit <- lm(yield_tonnes_ha ~ fertilizer_nitrogen_kg_ha + soil_organic_carbon_pct, data = seedlings_data)
+
+# 2. Show coefficients summary
+summary(model_fit)
+
+# 3. Plot diagnostics
+par(mfrow = c(1, 2))
+plot(model_fit, which = 1:2)
+par(mfrow = c(1, 1))
+```

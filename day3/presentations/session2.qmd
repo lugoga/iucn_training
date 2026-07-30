@@ -1,0 +1,84 @@
+---
+title: "Day 3 Session 2: Styling & Themes"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Refining Visual Communication
+
+## Beyond Default Plots
+* Default ggplot charts use grey grids (theme_grey).
+* Scholarly publications require high contrast, clean legends, and specific font scales.
+* Key operations:
+  * **Labels**: Adding titles, subtitles, captions, and customized axis names.
+  * **Themes**: Applying presets (minimal, classic) or editing grids, fonts, and backgrounds.
+  * **Facets**: Partitioning plots into sub-panels.
+
+---
+
+# Customizing Labels & Titles
+
+## The `labs()` Function
+* Declare all textual titles inside `labs()`:
+  ```r
+  # Custom titles and labels
+  ggplot(macroplastics, aes(x = location, y = macroplastics_count)) +
+    geom_boxplot() +
+    labs(
+      title = "Macroplastic Debris Counts by Survey Location",
+      subtitle = "Survey records from Zanzibar & Dar es Salaam",
+      x = "Coastal Location",
+      y = "Macroplastics Count (items / stn)",
+      caption = "Source: IUCN Bahari Yetu Program v2"
+    )
+  ```
+
+---
+
+# Applying Presets & Theme Tweaks
+
+## Theming Presets
+* Tidyverse provides preset themes:
+  * `theme_minimal()`: Clean, border-less, grey grids.
+  * `theme_classic()`: High contrast, thick axis lines, no gridlines.
+  * `theme_void()`: Completely empty (useful for spatial maps).
+
+## Inline Modifications
+* Use `theme()` to edit specific properties:
+  ```r
+  # Custom theme updates
+  ggplot(macroplastics, aes(x = location, y = macroplastics_count)) +
+    geom_boxplot() +
+    theme_classic(base_size = 14) + # Sets overall font size
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1), # rotate labels
+      panel.grid.major.y = element_line(color = "grey90") # add y-grids
+    )
+  ```
+
+---
+
+# Faceting: Splitting Panels
+
+## Partitioning by Categories
+* **Faceting** automatically splits a single chart into multiple sub-plots side-by-side:
+  ```r
+  # Split charts by location
+  ggplot(macroplastics, aes(x = date, y = macroplastics_count)) +
+    geom_line() +
+    facet_wrap(~ location, ncol = 2)
+  ```
+* Useful for comparing trends across sites or years.
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day3/exercises/exercise2.qmd`.

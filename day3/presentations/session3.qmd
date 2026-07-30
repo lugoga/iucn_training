@@ -1,0 +1,70 @@
+---
+title: "Day 3 Session 3: Exporting to Journals"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Output Resolution & Formats
+
+## Vector vs. Raster Formats
+* **Vector formats (PDF, SVG)**: Infinitely scalable, text stays crisp at any zoom level. Best for publication charts.
+* **Raster formats (TIFF, PNG, JPEG)**: Defined by pixels. Zooming in causes pixelation. Necessary for satellite imagery or photo layouts.
+
+## Journal Requirements
+* Standard resolutions: **300 DPI** (Dots Per Inch) minimum for color charts, **600-1200 DPI** for black-and-white drawings.
+* Dimensions: Usually specified in mm, cm, or inches matching column widths (e.g. single-column 85mm).
+
+---
+
+# Exporting Charts with `ggsave()`
+
+## The `ggsave()` Function
+* Save the active or specified plot directly from code to ensure reproducibility:
+  ```r
+  library(here)
+  
+  # Build plot object
+  my_plot <- ggplot(macroplastics, aes(x = location, y = macroplastics_count)) +
+    geom_boxplot() +
+    theme_classic(base_size = 12)
+  
+  # Export as publication-quality TIFF at 300 DPI
+  ggsave(
+    filename = here("outputs", "macroplastics_distribution.tiff"),
+    plot = my_plot,
+    width = 170,      # Two-column journal width
+    height = 120,
+    units = "mm",
+    dpi = 300
+  )
+  ```
+
+---
+
+# Cross-Platform Fonts & PDF Embedding
+
+## Solving Font Distortions
+* PDF outputs sometimes crash if device fonts are not embedded.
+* Solution: Use the **showtext** or **extrafont** package, or output as standard SVG/PDF devices:
+  ```r
+  # Cross-platform safe PDF rendering
+  ggsave(
+    filename = here("outputs", "macroplastics_distribution.pdf"),
+    plot = my_plot,
+    width = 6, height = 4, units = "in",
+    device = "pdf"
+  )
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day3/exercises/exercise3.qmd`.

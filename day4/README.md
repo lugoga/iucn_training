@@ -25,3 +25,8 @@ In the late afternoon, both tracks merge back for group presentations.
 ## Required Packages
 - **Track A**: `install.packages(c("sf", "terra", "tidyterra"))`
 - **Track B**: `install.packages(c("testflow", "car", "flextable", "rstatix", "tidyplots"))` (Ensure the local repository or active library has `testflow` loaded).
+
+## Recommended Readings
+- [Geocomputation with R](https://r.geocompx.org/) (Track A)
+- [Modern Statistics with R](https://www.modernstatisticswithr.com/) (Track B)
+- [rstatix Package Reference Guide](https://rpkgs.datanovia.com/rstatix/) (Track B)

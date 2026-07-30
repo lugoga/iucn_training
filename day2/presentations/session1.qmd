@@ -1,0 +1,96 @@
+---
+title: "Day 2 Session 1: Single-Table Wrangling"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Data Wrangling
+
+## Why Wrangle?
+* Raw data is rarely ready for statistical analysis or visual mapping.
+* Common issues:
+  * Irrelevant rows or columns.
+  * Variables that need unit conversions (e.g. converting grams to kilograms).
+  * Missing flags coded inconsistently.
+* Core tool: The **tidyverse** suite (specifically the **dplyr** package).
+
+---
+
+# The Pipe Operator
+
+## Piping in R (`|>` or `%>%`)
+* Pipes chain R operations sequentially: "Take this table, *then* do X, *then* do Y."
+* Native R Pipe: `|>` (available in R 4.1+)
+* Magrittr Pipe: `%>%` (tidyverse standard)
+  ```r
+  # Without pipes (hard to read)
+  clean_data <- mutate(filter(raw_data, Temp > 25), KiloCover = Cover / 1000)
+
+  # With pipes (clear, logical progression)
+  clean_data <- raw_data |>
+    filter(Temp > 25) |>
+    mutate(KiloCover = Cover / 1000)
+  ```
+
+---
+
+# Filtering Rows with `filter()`
+
+## Subset Rows by Criteria
+* `filter()` selects rows that satisfy logical conditions:
+  ```r
+  # Keep only stations in Zanzibar
+  zanzibar_stns <- macroplastics |>
+    filter(location == "Zanzibar")
+
+  # Keep records with count > 50 AND location is Dar es Salaam
+  dense_debris <- macroplastics |>
+    filter(macroplastics_count > 50 & location == "Dar es Salaam")
+  ```
+* Standard operators: `==` (equals), `!=` (not equals), `>`, `<`, `%in%` (value matching).
+
+---
+
+# Selecting Columns with `select()`
+
+## Focus on Specific Variables
+* `select()` keeps or drops columns:
+  ```r
+  # Keep only ID, location, and count
+  subset_cols <- macroplastics |>
+    select(station_id, location, macroplastics_count)
+
+  # Drop coordinates
+  no_coords <- macroplastics |>
+    select(-lat, -lon)
+  ```
+* Helpful helpers: `starts_with()`, `ends_with()`, `contains()`.
+
+---
+
+# Creating Columns with `mutate()`
+
+## Compute New Columns
+* `mutate()` modifies existing variables or calculates new ones:
+  ```r
+  # Convert count to log scale
+  log_debris <- macroplastics |>
+    mutate(
+      log_count = log10(macroplastics_count + 1),
+      kg_count = macroplastics_count / 1000
+    )
+  ```
+* Supports standard arithmetic, logical checks (`if_else`), and case transformations (`case_when`).
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day2/exercises/exercise1.qmd`.

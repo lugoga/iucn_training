@@ -1,0 +1,64 @@
+---
+title: "Day 5 Session 2 Exercise: Cross-Referencing & Formatting"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Introduction
+
+This exercise covers advanced layout adjustments inside Quarto:
+1. Control code chunk display configurations.
+2. Cross-reference generated tables and figures.
+3. Export outputs as Word documents.
+
+# Data Setup
+
+We load our datasets inside a silent chunk. Notice that we set `#| echo: false` and `#| message: false` to keep the compiled report clean.
+
+```{r}
+#| label: setup-data
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(flextable)
+library(here)
+
+study_data <- read_csv(here("data", "theme5_ghg_afolu.csv"))
+```
+
+# Tasks
+
+1. **Table Reference**: Look at Table @tbl-crop-summary. Verify that the label and caption are defined inside the code chunk options using `#| label: tbl-crop-summary` and `#| tbl-cap: "Summary metrics."`
+2. **Figure Reference**: Reference Figure @fig-yield-distribution in the text panel below.
+
+As shown in @fig-yield-distribution, we compare crop yield distributions between Maize and Rice...
+
+```{r}
+#| label: tbl-crop-summary
+#| tbl-cap: "Mean and standard deviation of crop yields by type."
+#| echo: false
+
+crop_table <- study_data %>%
+  group_by(crop_type) %>%
+  summarize(
+    `Mean Yield (t/ha)` = round(mean(yield_tonnes_ha), 2),
+    `SD Yield` = round(sd(yield_tonnes_ha), 2)
+  )
+
+flextable(crop_table) %>%
+  theme_vanilla() %>%
+  autofit()
+```
+
+```{r}
+#| label: fig-yield-distribution
+#| fig-cap: "Boxplot comparing crop yields."
+#| echo: false
+#| fig-width: 5
+#| fig-height: 3.5
+
+ggplot(study_data, aes(x = crop_type, y = yield_tonnes_ha, fill = crop_type)) +
+  geom_boxplot() +
+  theme_bw()
+```

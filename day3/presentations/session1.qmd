@@ -1,0 +1,73 @@
+---
+title: "Day 3 Session 1: Grammar of Graphics & Geoms"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to ggplot2
+
+## The Grammar of Graphics
+* Developed by Leland Wilkinson, formalized in R by Hadley Wickham.
+* Instead of building static graphs step-by-step, we declare:
+  * **Data**: The source dataset (usually a tidy data frame).
+  * **Aesthetic Mappings (aes)**: Rules mapping columns to visual coordinates (X, Y, Color, Size).
+  * **Geometric Objects (geoms)**: The physical shapes representing data points (scatter dots, bars, boxes).
+
+---
+
+# Mapping Coordinates with `aes()`
+
+## Defining Visual Properties
+* Aesthetics determine what columns represent visual fields:
+  ```r
+  # Map coordinates
+  ggplot(data = macroplastics, mapping = aes(x = lon, y = lat))
+  ```
+* This establishes the coordinate grid, but does not display shapes yet!
+
+## Mapping Inside vs. Outside `aes()`
+* If variable values determine colors: put inside `aes()`:
+  `aes(color = location)`
+* If you set a fixed color manually: put outside `aes()`:
+  `geom_point(color = "blue")`
+
+---
+
+# Geometric Layers: Geoms
+
+## Points: Scatterplots
+* Represent continuous variables on both X and Y:
+  ```r
+  # Render dots
+  ggplot(macroplastics, aes(x = lon, y = lat, color = macroplastics_count)) +
+    geom_point()
+  ```
+
+## Boxplots: Distributions
+* Compare continuous variables across categorical groups:
+  ```r
+  # Render box distributions
+  ggplot(macroplastics, aes(x = location, y = macroplastics_count)) +
+    geom_boxplot()
+  ```
+
+## Lines: Trends Over Time
+* Connect measurements in sequence:
+  ```r
+  # Plot line graphs
+  ggplot(temporal_data, aes(x = year, y = value, group = site)) +
+    geom_line()
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day3/exercises/exercise1.qmd`.

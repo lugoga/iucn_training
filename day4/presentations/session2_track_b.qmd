@@ -1,0 +1,60 @@
+---
+title: "Day 4 Session 2: Multiple Linear Regression (Track B)"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Linear Modeling
+
+## The Linear Regression Equation
+* Predicts a continuous outcome variable ($Y$) based on predictor variables ($X_1, X_2, \dots$):
+  $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon$$
+* Key function in R: `lm()`
+* Formulates models: `outcome ~ predictor1 + predictor2`
+
+---
+
+# Fitting Models in R
+
+## Multiple Regressions
+* Fit a model predicting debris counts based on population density and station elevation:
+  ```r
+  # Fit linear model
+  model <- lm(macroplastics_count ~ pop_density + elevation_m, data = macroplastics)
+  
+  # Inspect parameters and coefficients
+  summary(model)
+  ```
+* Look at:
+  * **$R^2$ (R-squared)**: The proportion of variance explained by model predictors.
+  * **Coefficients**: Direction and magnitude of each predictor's effect.
+  * **$p$-values**: Statistical significance of coefficients.
+
+---
+
+# Assumptions & Diagnostics
+
+## Verifying Model Health
+To ensure model predictions are valid, check regression assumptions:
+* **Residual Normality**: Shapiro-Wilk test or Q-Q plot.
+* **Homoscedasticity (Equal Variance)**: Breusch-Pagan test or Residuals vs. Fitted plot.
+  ```r
+  # Normal testing
+  shapiro.test(residuals(model))
+  
+  # Variance testing (from car package)
+  car::ncvTest(model)
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day4/exercises/exercise2_track_b.qmd`.

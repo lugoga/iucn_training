@@ -1,0 +1,87 @@
+---
+title: "Day 1 Session 1: IDE Setup & Projects"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to the Course
+
+## Welcome Scholars!
+* **Cohort Profile**: 28 MSc and PhD candidates representing NM-AIST, SUA, UDSM, and SUZA.
+* **The Goal**: Build reproducible, automated analysis pipelines for your graduate research.
+* **The Philosophy**: *"Bring Your Own Data (BYOD)"* — transitioning your thesis spreadsheets into code pipelines.
+
+## Why R instead of Microsoft Excel?
+* **Reproducibility**: Change the raw data, and your tables/plots update in a single click.
+* **Audit Trail**: Every data cleaning step is coded, documented, and peer-reviewable.
+* **Scope**: Handle large datasets, spatial mapping, and modeling in one integrated workflow.
+
+---
+
+# Setting Up the IDE Workspace
+
+## Positron & VS Code Interface
+* **Source Editor**: Write your script, markdown, or Quarto files.
+* **Console**: Executable sandbox for live R testing.
+* **Environment Pane**: Tracks loaded tables, vectors, and model fits.
+* **Files & Viewer Pane**: Browse folders, inspect output plots, and preview reports.
+
+## The Problem with `setwd()`
+* Historically, R scripts start with absolute paths:
+  ```r
+  # DANGER: This will fail on any other computer!
+  setwd("C:/Users/lugos/Documents/marine_data")
+  ```
+* Absolute directories break execution when shared with peers, advisors, or journal reviewers.
+* Solution: **RStudio Projects (`.Rproj`)**.
+
+---
+
+# Project-Centric Architecture
+
+## RStudio / Positron Projects
+* A project defines a self-contained working directory at its folder root.
+* All paths are calculated relative to this root folder.
+* Moving the project folder keeps all scripts fully functional!
+
+## Standard Directory Hierarchy
+Every applied analysis project should structure folders logically:
+```
+my_applied_statistics_project/
+├── data/           # Raw (read-only) and cleaned CSV/XLSX files
+├── scripts/        # R scripts, Quarto source reports, code blocks
+├── outputs/        # Rendered figures, processed tables, reports
+└── project.Rproj   # Self-contained project root marker
+```
+
+---
+
+# Robust Paths with the `here` Package
+
+## Navigating with `here`
+* The `here` package resolves files relative to the project root directory.
+* Never write a slash path manually; instead list sub-folders as arguments:
+  ```r
+  library(here)
+  library(tidyverse)
+
+  # Robust path locator
+  read_csv(here("data", "theme6_macroplastics.csv"))
+  ```
+* This is cross-platform safe (works perfectly on Windows, macOS, and Linux).
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Initialize a new Project inside your workspace directory.
+* Re-create the logical sub-folders (`data/`, `scripts/`, `outputs/`).
+* Copy one of the sample CSV files into your `data/` folder.
+* Complete the exercises in `day1/exercises/exercise1.qmd`.

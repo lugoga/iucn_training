@@ -1,0 +1,118 @@
+---
+title: "Day 1 Session 2: R Syntax Foundations"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# R Objects & Variables
+
+## What is an Object?
+* In R, all data is stored inside **objects** (variables).
+* We assign values to objects using the **assignment operator** `<-`:
+  ```r
+  # Standard assignment
+  soil_ph <- 6.8
+  site_name <- "Chumbe Sanctuary"
+  coral_cover_pct <- c(45.2, 58.1, 39.8)
+  ```
+* Shortcuts: Press `Alt` + `-` in Windows/Linux or `Option` + `-` in macOS to write `<-` automatically.
+
+## Variables Rules in R
+* Variable names must start with a letter.
+* Names can contain letters, numbers, underscores, and periods.
+* R is **case-sensitive**: `pH` is not the same object as `ph`!
+* Prefer clear, lowercase naming conventions (e.g. `macroplastics_count` instead of `MCount`).
+
+---
+
+# Basic Data Classes & Types
+
+## Core R Classes
+* **Numeric**: Decimals and integers (`6.8`, `120`).
+* **Character**: Text strings surrounded by quotes (`"Changuu Reef"`).
+* **Logical**: Boolean variables (`TRUE` or `FALSE`).
+* **Factor**: Categorical data with pre-defined levels (`"Low", "Medium", "High"`).
+  ```r
+  # Checking an object class
+  class(site_name)  # returns "character"
+  class(soil_ph)    # returns "numeric"
+  ```
+
+---
+
+# Vectors: The Foundation of R
+
+## Creating Vectors
+* A vector is a sequence of elements of the **same data class**.
+* We combine elements using the combine function `c()`:
+  ```r
+  # Numeric vector
+  chlorophyll_a <- c(1.2, 0.9, 1.5, 2.1)
+  
+  # Character vector
+  reef_stations <- c("Stn_01", "Stn_02", "Stn_03")
+  ```
+* R applies operations to vectors in a vectorized manner:
+  ```r
+  # Multiply every element by 2
+  double_chlorophyll <- chlorophyll_a * 2
+  # Result: 2.4, 1.8, 3.0, 4.2
+  ```
+
+---
+
+# Functions in R
+
+## Calling Functions
+* Functions are blocks of code that take **inputs (arguments)** and return **outputs**.
+* Standard function call syntax: `function_name(arg1 = value1, arg2 = value2)`
+  ```r
+  # Calculate mean and standard deviation
+  mean(chlorophyll_a)
+  sd(chlorophyll_a)
+  
+  # Set NA removal argument to TRUE if data contains missing values
+  mean(chlorophyll_a, na.rm = TRUE)
+  ```
+* Functions form the building blocks of data manipulation.
+
+---
+
+# The Data Frame Structure
+
+## Tabular Data
+* A **data frame** (or **tibble** in tidyverse) is a collection of vectors of matching lengths arranged in columns.
+* Each column represents a variable, and each row represents an observation.
+* Creating a data frame:
+  ```r
+  study_sites <- data.frame(
+    site_id = c("Reef_1", "Reef_2", "Reef_3"),
+    depth_m = c(12.5, 8.2, 18.0),
+    protected = c(TRUE, FALSE, TRUE)
+  )
+  ```
+
+---
+
+# Inspecting Data Frames
+
+## Helpful Commands
+Always inspect data frames upon creation/import:
+* `head(df)`: Views the first 6 rows of the dataset.
+* `str(df)`: Displays the structure, data classes, and dimensions.
+* `summary(df)`: Outputs descriptive statistics for numeric columns.
+* `colnames(df)`: Lists all column header names.
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Run the exercises in `day1/exercises/exercise2.qmd`.
+* Practice assigning objects, computing mathematical vector operations, and examining data classes.

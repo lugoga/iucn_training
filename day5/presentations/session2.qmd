@@ -1,0 +1,59 @@
+---
+title: "Day 5 Session 2: Formatting Options"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Chunk Control Options
+
+## Hiding Code and Output
+* Control how chunks are compiled in the final report by declaring settings inside the code block (`#|` syntax):
+  * `#| echo: false`: Hides code syntax, shows plots/tables.
+  * `#| warning: false`: Mutes warnings or version logs.
+  * `#| output: false`: Hides both code and results (useful for silent setups).
+  ```r
+  #| echo: false
+  #| warning: false
+  library(tidyverse)
+  ```
+
+---
+
+# Cross-Referencing Figures & Tables
+
+## Automated Scientific Labeling
+* Ensure figures are labeled dynamically so that updating numbering is automated:
+  ```r
+  #| label: fig-plastics-boxplot
+  #| fig-cap: "Boxplot of macroplastic counts."
+  ggplot(macroplastics, aes(x = location, y = macroplastics_count)) + 
+    geom_boxplot()
+  ```
+* Reference it in text: `As shown in @fig-plastics-boxplot, the counts...`
+
+---
+
+# Formatting Scholarly Output
+
+## PDF and Word Exports
+* Quarto compiles to multiple formats by tweaking the YAML settings:
+  ```yaml
+  # Compile to Microsoft Word using a custom template layout
+  format:
+    docx:
+      reference-doc: my_thesis_template.docx
+  ```
+* Seamlessly renders formulas, bibliographies, and tables into standard Word/PDF outputs.
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day5/exercises/exercise2.qmd`.

@@ -1,0 +1,49 @@
+---
+title: "Day 4 Track A Exercise 2: Raster Calculations & Extraction"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(sf)
+library(terra)
+library(here)
+
+cleanup_sites <- read_csv(here("data", "theme6_plastic_waste.csv"))
+cleanup_sites_sf <- st_as_sf(cleanup_sites, coords = c("lon", "lat"), crs = 4326)
+```
+
+# Tasks
+
+1. Generate a simulated 100x100 raster representing elevation (DEM) for the coastal zone.
+2. Render the raster elevation model using `plot()`.
+3. Extract pixel elevation values at each of our cleanup sites, appending them back to the stations table.
+
+Write your raster calculation code below:
+
+```{r}
+# Generate DEM raster
+dem_raster <- rast(
+  nrows = 100, ncols = 100, 
+  xmin = 39.2, xmax = 39.3, 
+  ymin = -6.8, ymax = -6.7,
+  crs = "EPSG:4326"
+)
+values(dem_raster) <- rep(seq(0, 300, length.out = 100), each = 100) + rnorm(10000, 0, 5)
+
+# 1. Plot elevation
+plot(dem_raster, main = "Coastal Digital Elevation Model (DEM)")
+
+# 2. Extract values at cleanup coordinates
+extracted_elevation <- terra::extract(dem_raster, cleanup_sites_sf)
+
+# 3. Join back to original dataset
+cleanup_sites_with_elevation <- cleanup_sites %>%
+  mutate(elevation_m = extracted_elevation[, 2])
+
+print(cleanup_sites_with_elevation)
+```

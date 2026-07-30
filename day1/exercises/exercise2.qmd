@@ -1,0 +1,48 @@
+---
+title: "Day 1 Session 2 Exercise: Basic R Operations & Data Structures"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Part A: Vector Calculations
+
+Create a numeric vector representing forest canopy height (in meters) for 5 trees:
+`12.4, 15.1, 9.8, 22.3, 14.5`
+
+Create a character vector representing the species codes for those 5 trees:
+`"T1", "T2", "T1", "T3", "T2"`
+
+```{r}
+# 1. Assign heights and species vectors:
+heights <- c(12.4, 15.1, 9.8, 22.3, 14.5)
+species <- c("T1", "T2", "T1", "T3", "T2")
+
+# 2. Calculate the mean and standard deviation of tree heights:
+mean_height <- mean(heights)
+sd_height <- sd(heights)
+
+print(mean_height)
+print(sd_height)
+```
+
+# Part B: Creating Data Frames
+
+Combine these two vectors into a data frame named `forest_data`. Include a third column for `tree_id` containing the values 1 through 5.
+
+```{r}
+# 3. Combine vectors into a data frame
+forest_data <- data.frame(
+  tree_id = 1:5,
+  species = species,
+  height_m = heights
+)
+
+print(forest_data)
+
+# 4. Use the structure inspector to see variables and data classes:
+str(forest_data)
+```
+
+# Discussion Questions
+1. What data class is the `species` column? What data class is the `height_m` column?
+2. What happens if you try to compute `mean(species)`? Why does this occur?

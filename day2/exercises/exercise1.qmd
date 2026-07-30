@@ -1,0 +1,35 @@
+---
+title: "Day 2 Session 1 Exercise: Single-Table Wrangling"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+# Load the simulated coastal forest carbon inventory
+coastal_forest <- read_csv(here("data", "theme1_coastal_forest.csv"))
+head(coastal_forest)
+```
+
+# Tasks
+
+1. **Filter**: Keep only trees belonging to species `"Rhizophora mucronata"` with a DBH (Diameter at Breast Height) greater than 20 cm.
+2. **Select**: Keep only the columns `plot_id`, `tree_species`, and `dbh_cm`.
+3. **Mutate**: Calculate a new column `basal_area_m2` as:
+   $$\text{Basal Area} = \pi \times \left(\frac{\text{DBH}}{200}\right)^2$$
+
+Write your data wrangling pipeline in the block below:
+
+```{r}
+cleaned_forest <- coastal_forest %>% 
+  filter(tree_species == "Rhizophora mucronata", dbh_cm > 20) %>% 
+  select(plot_id, tree_species, dbh_cm) %>% 
+  mutate(basal_area_m2 = pi * (dbh_cm / 200)^2)
+
+print(cleaned_forest)
+```

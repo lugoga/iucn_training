@@ -1,0 +1,32 @@
+---
+title: "Day 1 Session 1 Exercise: Directory Setup & the `here` Package"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup Requirements
+
+Before running any R code, ensure your workspace is structured logically:
+1. Initialize an RStudio Project (`.Rproj`) inside your main folder.
+2. Create three sub-folders:
+   - `data/` for raw data files.
+   - `scripts/` for your R scripts or Quarto files.
+   - `outputs/` for compiled figures and report outputs.
+
+# Executing the Check
+
+Let's test if the `here` package correctly points to your project root. Run the following code block:
+
+```{r}
+#| label: setup-check
+# Install if not already installed:
+# install.packages("here")
+
+library(here)
+print(here())
+```
+
+# Discussion & Questions
+
+1. What absolute directory path does `here()` output in your console?
+2. Move your project folder to another directory on your computer (e.g. from Documents to Desktop) and run the code block again. Does the path update dynamically without breaking? Why is this preferred over `setwd()`?

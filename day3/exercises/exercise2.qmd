@@ -1,0 +1,37 @@
+---
+title: "Day 3 Session 2 Exercise: Boxplots & Theme Customization"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+coastal_forest <- read_csv(here("data", "theme1_coastal_forest.csv"))
+```
+
+# Tasks
+
+1. Build a boxplot comparing `tree_species` on the x-axis vs. `dbh_cm` on the y-axis.
+2. Fill the boxplots using the `"plasma"` viridis palette option.
+3. Apply `theme_minimal()`.
+4. Hide the redundant species color legend using `theme(legend.position = "none")`.
+
+Write your boxplot code below:
+
+```{r}
+ggplot(coastal_forest, aes(x = tree_species, y = dbh_cm, fill = tree_species)) +
+  geom_boxplot() +
+  scale_fill_viridis_d(option = "plasma") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(
+    title = "Tree DBH Distribution by Species",
+    x = "Mangrove Species",
+    y = "Diameter at Breast Height (cm)"
+  )
+```

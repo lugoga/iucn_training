@@ -1,0 +1,63 @@
+---
+title: "Day 4 Session 2: Raster GIS & Calculations (Track A)"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Raster Data
+
+## Gridded Spatial Matrices
+* Raster data models space as a matrix of pixels containing continuous or categorical values (e.g. elevation, sea surface temperature).
+* Core library: **terra** (faster successor to the old `raster` package).
+* Raster file format: GeoTIFF (`.tif`).
+
+---
+
+# Loading & Mapping Rasters
+
+## Reading Rasters in R
+* Use `rast()` to load rasters:
+  ```r
+  library(terra)
+  library(tidyverse)
+  
+  # Load elevation model raster
+  dem <- rast(here("data", "dem_morogoro.tif"))
+  
+  # Print metadata (resolution, columns, CRS)
+  print(dem)
+  ```
+
+---
+
+# Raster Algebra & Extraction
+
+## Computing Raster Calculations
+* Modifying pixels (e.g. converting elevation to feet, computing indices):
+  ```r
+  # Convert DEM values to feet
+  dem_feet <- dem * 3.28084
+  ```
+
+## Extracting Values at Vector Points
+* Overlay coordinates on top of rasters to extract pixel values:
+  ```r
+  library(sf)
+  
+  # Extract elevation values for our survey locations
+  stns <- st_read(here("data", "stations.shp"))
+  stns_elev <- terra::extract(dem, stns)
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day4/exercises/exercise2_track_a.qmd`.

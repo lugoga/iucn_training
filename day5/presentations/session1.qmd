@@ -1,0 +1,63 @@
+---
+title: "Day 5 Session 1: Quarto Foundations"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Quarto
+
+## What is Quarto?
+* The next-generation open-source scientific publishing system.
+* Combines **text** (Markdown), **code** (R, Python, Julia), and **outputs** (tables, charts) into a single document.
+* Eliminates the need to copy-paste figures into Word/LaTeX!
+
+---
+
+# Document Architecture: YAML
+
+## The Document Frontmatter
+* Quarto documents begin with a **YAML block** bounded by triple dashes `---`:
+  ```yaml
+  ---
+  title: "My Thesis Chapter 3"
+  subtitle: "Microplastics Distribution along the Zanzibar Coast"
+  author: "Amani Juma"
+  format: html
+  theme: cosmo
+  toc: true
+  ---
+  ```
+* Dictates the overall layout, theme, metadata, and compilation formats.
+
+---
+
+# Markdown & Code Chunks
+
+## Scientific Markdown
+* Style text using standard markdown rules:
+  * Headers: `# Title`, `## Section`
+  * Bold / Italics: `**bold**`, `*italics*`
+  * Math: `$E = mc^2$`
+
+## Executing Code Chunks
+* Embed R code chunks starting with ```` ```{r} ````:
+  ```r
+  # Import and plot inside the document
+  library(tidyverse)
+  my_data <- read_csv(here("data", "theme5_ghg_afolu.csv"))
+  ggplot(my_data, aes(x = year, y = emissions)) + geom_line()
+  ```
+* Rendering executes the code and inserts the resulting plot directly below.
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day5/exercises/exercise1.qmd`.

@@ -1,0 +1,35 @@
+---
+title: "Day 5 Session 1 Exercise: Quarto Document Structure"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Instructions
+
+In this exercise, you will practice setting up and compiling a basic Quarto document:
+1. Examine the YAML block at the top of this document. Change the title to `"My First Reproducible Report"`.
+2. Add a table of contents to the YAML output configurations:
+   ```yaml
+   format:
+     html:
+       toc: true
+   ```
+3. Write a level 2 header below named `"## Summary Objectives"`.
+4. Style a bulleted list underneath summarizing your research objectives.
+5. Create a new R code chunk that loads `tidyverse` and `here` libraries.
+
+# R Code Practice
+
+```{r}
+#| label: setup
+#| message: false
+library(tidyverse)
+library(here)
+
+# Load agricultural greenhouse gas dataset
+ghg_data <- read_csv(here("data", "theme5_ghg_afolu.csv"))
+head(ghg_data)
+```
+
+# Compilation
+Click the **Render** button in Positron/RStudio (or run `quarto render` in terminal) to compile this file into an HTML webpage. Verify the table of contents is visible.

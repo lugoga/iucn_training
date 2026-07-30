@@ -1,0 +1,63 @@
+---
+title: "Day 2 Session 3 Exercise: Joins & Pivoting"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+```
+
+# Part A: Relational Joins
+
+Load the industrial activity dataset and join it with the emission factors lookup table.
+
+```{r}
+#| message: false
+# 1. Load activity tables
+emissions_activity <- read_csv(here("data", "theme2_ghg_ippu.csv"))
+
+# 2. Lookup table for emission factors
+emission_factors <- tibble(
+  facility_id = c("FAC_1", "FAC_2", "FAC_3", "FAC_4"),
+  ef_co2_per_tonne = c(0.52, 0.49, 0.54, 0.51),
+  location = c("Dar es Salaam", "Tanga", "Mtwara", "Mwanza")
+)
+
+# 3. Join tables and calculate a new column `total_co2_emissions_tonnes`
+emissions_joined <- emissions_activity %>% 
+  left_join(emission_factors, by = "facility_id") %>% 
+  mutate(total_co2_emissions_tonnes = cement_produced_tonnes * ef_co2_per_tonne)
+
+print(emissions_joined)
+```
+
+# Part B: Pivoting Tables
+
+Pivot the wide digestion yield table into a tidy format.
+
+```{r}
+# 4. Define wide table
+waste_digestion_wide <- tibble(
+  reactor_id = c("R_A", "R_B", "R_C"),
+  feedstock = c("Food Waste", "Manure", "Co-digested"),
+  day_1 = c(10.2, 5.4, 18.5),
+  day_2 = c(15.4, 7.8, 25.1),
+  day_3 = c(22.1, 9.2, 33.6)
+)
+
+# 5. Pivot columns long and parse the day label to a numeric value
+waste_digestion_long <- waste_digestion_wide %>% 
+  pivot_longer(
+    cols = starts_with("day_"),
+    names_to = "day",
+    values_to = "methane_yield"
+  ) %>% 
+  mutate(day = parse_number(day))
+
+print(waste_digestion_long)
+```

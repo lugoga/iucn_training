@@ -1,0 +1,89 @@
+---
+title: "Day 1 Session 3: Tidy Data & Import"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Tidy Data
+
+## Hadley Wickham's definition:
+
+> "Tidy datasets are all alike, but every messy dataset is messy in its own way."
+
+* In a tidy dataset:
+  1. **Variables** are placed in individual columns.
+  2. **Observations** are placed in individual rows.
+  3. **Values** are placed in individual cells.
+
+## Why Tidy Data Matters
+* R functions (for plotting, summaries, or modeling) are designed around the tidy structure.
+* Working with untidy data requires writing redundant, error-prone code blocks.
+* Tidy data makes relational joins and groupings extremely straightforward.
+
+---
+
+# Reshaping Formats: Wide vs. Long
+
+## Messy / Wide Format (Excel style)
+* Multiple columns store the same variable (e.g. measurements across different years).
+* Example:
+  | Site | Cover_2024 | Cover_2025 |
+  | :--- | :---: | :---: |
+  | Reef A | 42.5 | 40.1 |
+  | Reef B | 31.2 | 29.8 |
+
+## Clean / Tidy Format (Long style)
+* Every year is a separate row, and cover values occupy a single column.
+* Example:
+  | Site | Year | Cover |
+  | :--- | :---: | :---: |
+  | Reef A | 2024 | 42.5 |
+  | Reef A | 2025 | 40.1 |
+  | Reef B | 2024 | 31.2 |
+  | Reef B | 2025 | 29.8 |
+
+---
+
+# Importing Datasets into R
+
+## Core Libraries
+We load the core libraries for importing data:
+```r
+library(tidyverse) # includes readr for CSV imports
+library(readxl)    # library for Excel sheet imports
+library(here)      # for robust folder paths
+```
+
+## Reading CSV Files
+* Use `read_csv()` from the `readr` package (faster and more robust than base R's `read.csv`):
+  ```r
+  # Import a CSV file from our project data folder
+  my_data <- read_csv(here("data", "theme5_ghg_afolu.csv"))
+  ```
+* R parses data classes automatically and prints a column specifications report.
+
+## Reading Excel Spreadsheets
+* Use `read_excel()` from the `readxl` package:
+  ```r
+  # Read a specific sheet from an Excel workbook
+  my_sheet <- read_excel(
+    path = here("data", "field_records.xlsx"),
+    sheet = "Site_A_Measurements"
+  )
+  ```
+* Handles header cell mappings and formats missing values correctly.
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Run the exercises in `day1/exercises/exercise3.qmd`.
+* Import the theme datasets using `read_csv()` and verify column data classes.
+* Attempt importing your own spreadsheet files (BYOD) into your R project workspace!

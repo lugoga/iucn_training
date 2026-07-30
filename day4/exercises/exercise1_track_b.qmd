@@ -1,0 +1,57 @@
+---
+title: "Day 4 Track B Exercise 1: Parametric Comparison Tests"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(testflow)
+library(rstatix)
+library(here)
+
+# Load agricultural biomass dataset
+forest_soc <- read_csv(here("data", "theme5_ghg_afolu.csv"))
+head(forest_soc)
+```
+
+# Tasks
+
+1. Conduct a two-sample t-test comparing soil organic carbon levels across crop types using `testflow::test_t_two_sample()`. Print the diagnostic plots.
+2. Conduct the same independent t-test using `rstatix::t_test()`.
+3. Assess normality using `rstatix::shapiro_test()` by group.
+4. Calculate Cohen's d effect size.
+
+Write your parametric testing code below:
+
+```{r}
+# --- testflow Pipeline ---
+soc_comparison <- test_t_two_sample(
+  data = forest_soc,
+  response = "soil_organic_carbon_pct",
+  group = "crop_type"
+)
+report(soc_comparison)
+
+# Plot residuals diagnostics
+plot(soc_comparison)
+
+# --- rstatix Alternative ---
+# 1. Shapiro-Wilk test for normality
+forest_soc %>% 
+  group_by(crop_type) %>% 
+  shapiro_test(soil_organic_carbon_pct)
+
+# 2. Independent t-test
+stat_test <- forest_soc %>% 
+  t_test(soil_organic_carbon_pct ~ crop_type, detailed = TRUE)
+print(stat_test)
+
+# 3. Cohen's d Effect Size
+effect_sz <- forest_soc %>% 
+  cohens_d(soil_organic_carbon_pct ~ crop_type)
+print(effect_sz)
+```

@@ -1,0 +1,68 @@
+---
+title: "Day 2 Session 3: Relational Joins & Reshaping"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Combining Datasets
+
+## Relational Data
+* Environmental analyses frequently span multiple tables (e.g. one table of station coordinates, another table of chemical measurements).
+* **Joins** combine tables using shared key columns.
+* Core join types:
+  * `left_join(x, y)`: Keeps all rows in `x`, adds matching columns from `y`.
+  * `inner_join(x, y)`: Keeps only matching rows in both tables.
+
+---
+
+# Performing Joins in R
+
+## Chaining Joins
+* Key matching is automated if column headers match, or specified using the `by` argument:
+  ```r
+  # Join chemical readings with station lookup coordinates
+  combined_data <- chemical_readings |>
+    left_join(station_lookup, by = "station_id")
+  ```
+* If key names differ: `by = c("key_x" = "key_y")`.
+
+---
+
+# Reshaping Data Tables
+
+## Wide to Long with `pivot_longer()`
+* Wide data stores multiple measurements in columns. We pivot it long to make it tidy:
+  ```r
+  # Pivot multiple year cover columns into a single long column
+  tidy_coral <- wide_coral |>
+    pivot_longer(
+      cols = starts_with("CoralCover_"),
+      names_to = "Year",
+      names_prefix = "CoralCover_",
+      values_to = "Cover"
+    )
+  ```
+
+## Long to Wide with `pivot_wider()`
+* Opposite of `pivot_longer()`; used to create summaries, matrices, or correlation tables:
+  ```r
+  # Pivot back to wide format
+  wide_coral_again <- tidy_coral |>
+    pivot_wider(
+      names_from = Year,
+      values_from = Cover
+    )
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day2/exercises/exercise3.qmd`.

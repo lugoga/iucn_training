@@ -1,0 +1,47 @@
+---
+title: "Day 1 Session 3 Exercise: Data Importing & Tidy Data Principles"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Part A: Data Importing
+
+Ensure the package `readr` (part of the `tidyverse`) and `here` are loaded, then import the plastic waste dataset using relative paths.
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+# Import the macroplastics csv file using relative paths
+plastics_df <- read_csv(here("data", "theme6_plastic_waste.csv"))
+
+# Inspect the imported data frame
+head(plastics_df)
+```
+
+# Part B: Identifying Untidy Data
+
+Review the two tables representing household energy biomass usage:
+
+### Table A (Wide / Untidy)
+| Household | Charcoal_Kg_Day1 | Charcoal_Kg_Day2 | Firewood_Kg_Day1 | Firewood_Kg_Day2 |
+| :--- | :--- | :--- | :--- | :--- |
+| HH01 | 2.5 | 3.0 | 5.0 | 4.5 |
+| HH02 | 1.0 | 1.2 | 8.0 | 7.5 |
+
+### Table B (Long / Tidy)
+| Household | Fuel_Type | Day | Amount_Kg |
+| :--- | :--- | :--- | :--- |
+| HH01 | Charcoal | Day 1 | 2.5 |
+| HH01 | Charcoal | Day 2 | 3.0 |
+| HH01 | Firewood | Day 1 | 5.0 |
+| HH01 | Firewood | Day 2 | 4.5 |
+| HH02 | Charcoal | Day 1 | 1.0 |
+| HH02 | Charcoal | Day 2 | 1.2 |
+| HH02 | Firewood | Day 1 | 8.0 |
+| HH02 | Firewood | Day 2 | 7.5 |
+
+# Discussion Questions
+1. Why is **Table B** tidy and **Table A** untidy?
+2. If you wanted to calculate the average fuel amount used by each household, which table format makes this query simpler?

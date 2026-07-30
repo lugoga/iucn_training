@@ -1,0 +1,60 @@
+---
+title: "Day 4 Session 1: Hypothesis Testing (Track B)"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to Hypothesis Testing
+
+## Foundations of Inference
+* In research, we test hypotheses using samples to determine if observed patterns reflect true population effects.
+* Parametric testing assumes specific data properties (normality, equal variance).
+* Core library: **testflow** and **rstatix** (clean tidyverse-style outputs).
+
+---
+
+# T-Tests: Comparing Two Groups
+
+## Parametric t-tests
+* Compare mean values across two independent groups (e.g. comparing temperature between sites):
+  ```r
+  library(tidyverse)
+  library(rstatix)
+  library(testflow)
+  
+  # Conduct t-test
+  t_res <- macroplastics |>
+    t_test(macroplastics_count ~ location, var.equal = TRUE)
+  ```
+* Evaluates null hypothesis ($H_0: \mu_1 = \mu_2$).
+
+---
+
+# ANOVA: Comparing Multiple Groups
+
+## Analysis of Variance (ANOVA)
+* Compares mean values across three or more categories:
+  ```r
+  # Conduct one-way ANOVA
+  anova_res <- macroplastics |>
+    anova_test(macroplastics_count ~ location)
+  ```
+* If ANOVA yields significant $p$-values, perform a **post-hoc pairwise test** (Tukey HSD) to pinpoint differences:
+  ```r
+  # Tukey HSD post-hoc test
+  post_hoc <- macroplastics |>
+    tukey_hsd(macroplastics_count ~ location)
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day4/exercises/exercise1_track_b.qmd`.

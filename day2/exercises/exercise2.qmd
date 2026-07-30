@@ -1,0 +1,36 @@
+---
+title: "Day 2 Session 2 Exercise: Group Summaries & Aggregation"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+coastal_forest <- read_csv(here("data", "theme1_coastal_forest.csv"))
+```
+
+# Tasks
+
+Using the `coastal_forest` dataset, calculate the following summary metrics **for each plot**:
+1. The total number of trees (`n()`).
+2. The average DBH (`mean()`).
+3. The maximum height of trees (`max()`).
+
+Write your grouping and summarization pipeline below:
+
+```{r}
+plot_summary <- coastal_forest %>% 
+  group_by(plot_id) %>% 
+  summarize(
+    total_trees = n(),
+    mean_dbh = mean(dbh_cm, na.rm = TRUE),
+    max_height = max(height_m, na.rm = TRUE)
+  )
+
+print(plot_summary)
+```

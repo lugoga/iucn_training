@@ -1,0 +1,62 @@
+---
+title: "Day 4 Session 1: Vector GIS & Projections (Track A)"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+author: "IUCN Bahari Yetu Scholarly Cohort"
+date: "August 2026"
+format: 
+  revealjs:
+    theme: league
+    transition: slide
+    slide-number: true
+    preview-links: true
+---
+
+# Introduction to R Spatial Analysis
+
+## Why Do GIS in R?
+* Replaces proprietary GIS desktop software (like ArcGIS) with reproducible code.
+* Links data wrangling (`dplyr`), graphing (`ggplot2`), and modeling directly to spatial points.
+* Handles coordinate transformation, polygon mapping, and buffer zones automatically.
+
+---
+
+# The `sf` Package for Vector Data
+
+## Simple Features (`sf`)
+* The `sf` package represents spatial vector data (Points, Polylines, Polygons) inside standard data frames.
+* Columns store attributes, and a special list-column (`geometry`) holds spatial vectors:
+  ```r
+  library(sf)
+  library(tidyverse)
+  
+  # Read a vector shapefile
+  marine_parks <- st_read(here("data", "marine_parks.shp"))
+  
+  # Inspect the projection and geometry type
+  st_crs(marine_parks)
+  ```
+
+---
+
+# Coordinate Reference Systems (CRS)
+
+## Projections & Grids
+* Global GPS coordinates are unprojected: **WGS 84 (EPSG: 4326)**.
+* To compute accurate distances (in meters/kilometers instead of degrees), we must project maps using a local grid.
+* Key regional projections:
+  * UTM Zone 37S (Tanzania): **EPSG: 32737**
+  * Arc 1960 Zone 37S (East Africa): **EPSG: 21037**
+
+## Transforming Projections
+* Use `st_transform()` to re-project coordinate systems on-the-fly:
+  ```r
+  # Re-project unprojected data to UTM 37S
+  marine_parks_projected <- marine_parks |>
+    st_transform(crs = 32737)
+  ```
+
+---
+
+# Let's Practice!
+* Open your IDE.
+* Complete the exercises in `day4/exercises/exercise1_track_a.qmd`.

@@ -1,0 +1,45 @@
+---
+title: "Day 4 Track A Exercise 1: Vector Geometries & Coordinate Transformations"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(sf)
+library(here)
+
+# Load the cleanup stations tabular coordinates
+cleanup_sites <- read_csv(here("data", "theme6_plastic_waste.csv"))
+head(cleanup_sites)
+```
+
+# Tasks
+
+1. Convert the tabular data to an `sf` spatial point object using coordinate reference WGS 84 (CRS 4326).
+2. Reproject the spatial coordinates from unprojected WGS 84 to UTM Zone 37S (CRS 32737), standard for Tanzania.
+3. Plot the reprojected cleanup points using `geom_sf()`, mapping the macroplastics count to size and color aesthetics.
+
+Write your spatial vector mapping code below:
+
+```{r}
+# Convert to spatial object
+cleanup_sites_sf <- st_as_sf(cleanup_sites, coords = c("lon", "lat"), crs = 4326)
+
+# Reproject to UTM 37S
+cleanup_sites_utm <- st_transform(cleanup_sites_sf, crs = 32737)
+
+# Plot UTM Projected map
+ggplot() +
+  geom_sf(data = cleanup_sites_utm, aes(size = macroplastics_count, color = macroplastics_count)) +
+  scale_color_viridis_c() +
+  theme_minimal() +
+  labs(
+    title = "Plastic Waste Cleanup Locations (UTM 37S)",
+    size = "Debris Count",
+    color = "Debris Count"
+  )
+```

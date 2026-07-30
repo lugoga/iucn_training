@@ -1,0 +1,38 @@
+---
+title: "Day 3 Session 1 Exercise: Grammar of Graphics & Geoms"
+subtitle: "Applied Statistics for Marine & Coastal Analytics"
+format: html
+---
+
+# Setup
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+# Load the simulated marine survey
+marine_survey <- read_csv(here("data", "theme4_marine_ecology.csv"))
+head(marine_survey)
+```
+
+# Tasks
+
+1. Plot `boat_density_index` on the x-axis and `dolphin_detections` on the y-axis.
+2. Render coordinates as points using `geom_point()`.
+3. Map `site` to the point color aesthetic inside `aes()`.
+4. Add a linear trendline using `geom_smooth(method = "lm", se = FALSE)`.
+
+Write your plotting code below:
+
+```{r}
+ggplot(marine_survey, aes(x = boat_density_index, y = dolphin_detections, color = site)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Dolphin Acoustic Detections vs. Boat Traffic",
+    x = "Boat Density Index",
+    y = "Dolphin Detections / Day",
+    color = "Survey Site"
+  )
+```
