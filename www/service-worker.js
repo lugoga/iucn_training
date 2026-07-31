@@ -1,9 +1,10 @@
-const CACHE_NAME = 'bahari-yetu-v4';
+const CACHE_NAME = 'bahari-yetu-v5';
 const ASSETS = [
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/IUCN_logo.svg'
+  './',
+  'manifest.json',
+  'icon-192.png',
+  'icon-512.png',
+  'IUCN_logo.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -54,7 +55,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Do not cache dynamic R Shiny HTML pages (root / and ./), always fetch them from network
-  if (url.pathname === '/' || url.pathname === '/index.html') {
+  if (url.pathname.endsWith('/') || url.pathname.endsWith('/index.html')) {
     return;
   }
 

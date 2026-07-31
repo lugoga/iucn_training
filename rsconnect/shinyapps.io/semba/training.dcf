@@ -5,7 +5,7 @@ account: semba
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 17655136
-bundleId: 12345307
+bundleId: 12345391
 url: https://semba.shinyapps.io/training/
 version: 1
 asMultiple: FALSE
