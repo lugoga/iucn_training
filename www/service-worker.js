@@ -1,16 +1,17 @@
-const CACHE_NAME = 'bahari-yetu-v2';
+const CACHE_NAME = 'bahari-yetu-v3';
 const ASSETS = [
-  './',
   '/',
-  'manifest.json',
-  'icon-192.png',
-  'icon-512.png',
-  'IUCN_logo.svg'
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/IUCN_logo.svg'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      // Use Promise.all with caught cache.add requests to prevent installation failures
+      // if any individual asset is missing or returns a 404.
       return Promise.all(
         ASSETS.map((asset) => {
           return cache.add(asset).catch((err) => {
@@ -84,7 +85,7 @@ self.addEventListener('fetch', (event) => {
       }).catch(() => {
         // Offline fallback for navigate requests
         if (event.request.mode === 'navigate') {
-          return caches.match('./') || caches.match('/') || caches.match('index.html');
+          return caches.match('/');
         }
       });
     })
