@@ -1,6 +1,5 @@
-const CACHE_NAME = 'bahari-yetu-v3';
+const CACHE_NAME = 'bahari-yetu-v4';
 const ASSETS = [
-  '/',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
@@ -54,6 +53,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Do not cache dynamic R Shiny HTML pages (root / and ./), always fetch them from network
+  if (url.pathname === '/' || url.pathname === '/index.html') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -83,10 +87,8 @@ self.addEventListener('fetch', (event) => {
         });
         return networkResponse;
       }).catch(() => {
-        // Offline fallback for navigate requests
-        if (event.request.mode === 'navigate') {
-          return caches.match('/');
-        }
+        // Offline fallback
+        return null;
       });
     })
   );
